@@ -1,9 +1,15 @@
 import React from 'react';
 import TaskItem from './taskItem';
+import styled from 'styled-components';
+
+const ListContainer = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
 
 const TaskList = ({ tasks, onTaskComplete, onTaskDelete,onTaskEdit }) => {
   return (
-    <ul>
+    <ListContainer>
       {tasks.map(task => (
         <TaskItem
           key={task.id}
@@ -13,7 +19,7 @@ const TaskList = ({ tasks, onTaskComplete, onTaskDelete,onTaskEdit }) => {
           onTaskEdit={onTaskEdit}
         />
       ))}
-    </ul>
+    </ListContainer>
   );
 };
 

@@ -9,11 +9,10 @@ const App = () => {
   useEffect(() => {
     // Efecto de Actualización
     console.log('Tasks updated:', tasks);
-    // Puedes agregar aquí la lógica para la persistencia de datos en localStorage si lo deseas
   }, [tasks]);
 
   const handleTaskComplete = (taskId, isCompleted) => {
-    // Actualizar el estado para marcar la tarea como completada
+    // Actualizar el estado de completado o no de la tarea
     setTasks(prevTasks =>
       prevTasks.map(task =>
         task.id === taskId ? { ...task, completed: isCompleted } : task
@@ -22,12 +21,12 @@ const App = () => {
   };
 
   const handleTaskDelete = taskId => {
-    // Eliminar la tarea del estado
+    // Eliminar la tarea
     setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
   };
 
   const handleTaskAdd = taskName => {
-    // Agregar una nueva tarea al estado
+    // Agregar una nueva tarea
     const newTask = {
       id: tasks.length + 1,
       name: taskName,
@@ -35,7 +34,9 @@ const App = () => {
     };
     setTasks(prevTasks => [...prevTasks, newTask]);
   };
+
   const handleTaskEdit = (taskId, editedTaskName) => {
+    //actualiza la tarea de ser modificada
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, name: editedTaskName } : task
@@ -45,7 +46,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Task Manager</h1>
+      <h1 className='titulo'>Lista de Tareas</h1>
       <TaskForm onTaskAdd={handleTaskAdd} />
       <TaskList
         tasks={tasks}
