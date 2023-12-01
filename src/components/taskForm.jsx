@@ -1,47 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const FormContainer = styled.form`
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
+`;
 
-  input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    max-width: 300px;
-  }
+const Input = styled.input`
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+`;
 
-  button {
-    margin-left: 8px;
-    padding: 8px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+const Button = styled.button`
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #45a049;
   }
 `;
 
 const TaskForm = ({ onTaskAdd }) => {
   const [newTask, setNewTask] = useState('');
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
-    onTaskAdd(newTask);
-    setNewTask('');
+
+    // Validación para no permitir tareas vacías
+    if (newTask.trim() !== '') {
+      onTaskAdd(newTask);
+      setNewTask('');
+      setIsInvalid(false); // Restablece el estado de la validación
+    } else {
+      setIsInvalid(true);
+      setWarningMessage('Por favor, ingresa algo antes de agregar la tarea.');
+    }
   };
+
+  useEffect(() => {
+    // Función de limpieza
+    return () => {
+      setNewTask('');
+      setIsInvalid(false);
+      setWarningMessage('');
+    };
+  }, []);
+
+  useEffect(() => {
+    // Muestra el mensaje de advertencia cuando isInvalid es verdadero
+    if (isInvalid) {
+      const timeoutId = setTimeout(() => {
+        setWarningMessage('');
+      }, 3000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isInvalid]);
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <input
+      <Input
         type="text"
         placeholder="Nueva Tarea"
         value={newTask}
         onChange={e => setNewTask(e.target.value)}
+        style={{ borderColor: isInvalid ? 'red' : '' }}
       />
-      <button type="submit">Añadir Tarea</button>
+      <Button type="submit">Añadir Tarea</Button>
+      {isInvalid && <p style={{ color: 'red' }}>{warningMessage}</p>}
     </FormContainer>
   );
 };
