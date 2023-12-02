@@ -103,10 +103,6 @@ const TaskItem = ({ task, onTaskComplete, onTaskDelete, onTaskEdit }) => {
 
     if (!isEditing && editedTaskName !== '') {
       clearTimeout(timeoutId);
-
-      timeoutId = setTimeout(() => {
-        // Eliminado el alerta para una nueva tarea
-      }, 500);
     }
 
     return () => clearTimeout(timeoutId);

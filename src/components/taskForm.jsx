@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const FormContainer = styled.form`
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
@@ -37,7 +37,7 @@ const TaskForm = ({ onTaskAdd }) => {
   const [isInvalid, setIsInvalid] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     // Validación para no permitir tareas vacías
@@ -45,6 +45,7 @@ const TaskForm = ({ onTaskAdd }) => {
       onTaskAdd(newTask);
       setNewTask('');
       setIsInvalid(false); // Restablece el estado de la validación
+      alert('Tarea agregada con éxito: ' + newTask); // Alerta de tarea agregada con éxito
     } else {
       setIsInvalid(true);
       setWarningMessage('Por favor, ingresa algo antes de agregar la tarea.');
@@ -77,7 +78,7 @@ const TaskForm = ({ onTaskAdd }) => {
         type="text"
         placeholder="Nueva Tarea"
         value={newTask}
-        onChange={e => setNewTask(e.target.value)}
+        onChange={(e) => setNewTask(e.target.value)}
         style={{ borderColor: isInvalid ? 'red' : '' }}
       />
       <Button type="submit">Añadir Tarea</Button>
