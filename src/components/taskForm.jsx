@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const FormContainer = styled.form`
   display: flex;
+  flex-direction:column;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
@@ -14,6 +15,7 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-right: 10px;
+  margin-bottom: 15px;
 `;
 
 const Button = styled.button`

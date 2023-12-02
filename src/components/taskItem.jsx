@@ -16,6 +16,7 @@ const Card = styled.div`
   width: 100%;
   padding: 16px;
   background-color: ${(props) => (props.completed ? '#4CAF50' : '#f8f8f8')};
+  opacity: 0.85;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -35,6 +36,13 @@ const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
+`;
+
+const EditContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Button = styled.button`
@@ -49,11 +57,17 @@ const Button = styled.button`
 
   &:hover {
     background-color: #e0e0e0;
+    transform: scale(1.15);
   }
 
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+  }
+
+  &:active {
+    transition: transform 0.05s ease-in-out;
+    transform: scale(1);
   }
 `;
 
@@ -76,6 +90,7 @@ const TaskItem = ({ task, onTaskComplete, onTaskDelete, onTaskEdit }) => {
   const handleSave = () => {
     onTaskEdit(task.id, editedTaskName);
     setIsEditing(false);
+    alert('Tarea modificada con éxito');
   };
 
   const handleCancel = () => {
@@ -90,7 +105,7 @@ const TaskItem = ({ task, onTaskComplete, onTaskDelete, onTaskEdit }) => {
       clearTimeout(timeoutId);
 
       timeoutId = setTimeout(() => {
-        alert(`Nueva tarea añadida: ${editedTaskName}`);
+        // Eliminado el alerta para una nueva tarea
       }, 500);
     }
 
@@ -104,7 +119,7 @@ const TaskItem = ({ task, onTaskComplete, onTaskDelete, onTaskEdit }) => {
           <StyledText completed={task.completed}>{task.name}</StyledText>
         </TextContainer>
         {isEditing ? (
-          <div>
+          <EditContainer>
             <input
               type="text"
               value={editedTaskName}
@@ -114,7 +129,7 @@ const TaskItem = ({ task, onTaskComplete, onTaskDelete, onTaskEdit }) => {
               <Button onClick={handleSave}>Guardar</Button>
               <Button onClick={handleCancel}>Cancelar</Button>
             </ButtonsContainer>
-          </div>
+          </EditContainer>
         ) : (
           <ButtonsContainer>
             <Button onClick={handleComplete}>
